@@ -2758,17 +2758,7 @@ void AArch64AsmPrinter::emitInstruction(const MachineInstr *MI) {
     Add.addOperand(MCOperand::createImm(AArch64_AM::getShiftValue(0)));
     EmitToStreamer(*OutStreamer, Add);
 
-    // Emit a relocation-annotation. This expands to no code, but requests
-    // the following instruction gets an R_AARCH64_TLSDESC_CALL.
-    // TODO: we probably don't need that for AUTH TLSDESC. Emit as for now for
-    // consistency with non-AUTH case.
-    MCInst TLSDescCall;
-    TLSDescCall.setOpcode(AArch64::TLSDESCCALL);
-    TLSDescCall.addOperand(Sym);
-    EmitToStreamer(*OutStreamer, TLSDescCall);
-#ifndef NDEBUG
-    --InstsEmitted; // no code emitted
-#endif
+    // Do not emit .tlsdesccall for AUTH TLSDESC.
 
     MCInst Blraa;
     Blraa.setOpcode(AArch64::BLRAA);
