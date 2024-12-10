@@ -41,7 +41,7 @@ using duration           = std::chrono::utc_clock::duration;
 using time_point         = std::chrono::utc_clock::time_point;
 constexpr bool is_steady = std::chrono::utc_clock::is_steady;
 
-// Tests the values. part of them are implementation defined.
+// Tests the values. Some of them are implementation-defined.
 LIBCPP_STATIC_ASSERT(std::same_as<rep, std::chrono::system_clock::rep>);
 static_assert(std::is_arithmetic_v<rep>);
 static_assert(std::is_signed_v<rep>);

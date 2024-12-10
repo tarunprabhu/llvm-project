@@ -30,7 +30,7 @@ int main(int, const char**) {
 
   std::chrono::leap_second_info leap_second_info{.is_leap_second = false, .elapsed = std::chrono::seconds(0)};
 
-  [[maybe_unused]] bool is_leap_second           = leap_second_info.is_leap_second;
+  [[maybe_unused]] bool& is_leap_second          = leap_second_info.is_leap_second;
   [[maybe_unused]] std::chrono::seconds& elapsed = leap_second_info.elapsed;
 
   return 0;

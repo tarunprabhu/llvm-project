@@ -27,4 +27,11 @@ int main(int, const char**) {
 
   assert(t >= clock::time_point::min());
   assert(t <= clock::time_point::max());
+
+  auto t2 = clock::now();
+  assert(t2 - t >= std::chrono::seconds(0));
+  // This may fail if the tests takes a long time to complete.
+  assert(t2 - t < std::chrono::seconds(42));
+
+  return 0;
 }

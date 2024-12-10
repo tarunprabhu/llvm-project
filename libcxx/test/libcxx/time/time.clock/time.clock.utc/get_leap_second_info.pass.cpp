@@ -17,7 +17,7 @@
 // class utc_clock;
 
 // template<class Duration>
-// leap_second_info get_leap_second_info(const utc_time<Duration>& ut);
+// std::chrono::leap_second_info get_leap_second_info(const utc_time<Duration>& ut);
 
 #include <chrono>
 #include <cassert>
@@ -44,9 +44,12 @@ std::string_view std::chrono::__libcpp_tzdb_directory() {
 static void write(std::string_view input) {
   static int version = 0;
 
-  std::ofstream f{tzdata};
-  f << "# version " << version++ << '\n';
-  std::ofstream{leap_seconds}.write(input.data(), input.size());
+  {
+    std::ofstream f{tzdata};
+    f << "# version " << version++ << '\n';
+    std::ofstream{leap_seconds}.write(input.data(), input.size());
+  }
+  std::chrono::reload_tzdb();
 }
 
 template <class Duration>
@@ -67,9 +70,22 @@ static void test_leap_second_info(
           "]\n"));
 }
 
+static void test_no_leap_seconds_entries() {
+  using namespace std::literals::chrono_literals;
+
+  write("");
+
+  test_leap_second_info(
+      std::chrono::utc_seconds{std::chrono::sys_days{std::chrono::January / 1 / 1900}.time_since_epoch()}, false, 0s);
+  test_leap_second_info(
+      std::chrono::utc_seconds{std::chrono::sys_days{std::chrono::January / 1 / 2000}.time_since_epoch()}, false, 0s);
+  test_leap_second_info(
+      std::chrono::utc_seconds{std::chrono::sys_days{std::chrono::January / 1 / 3000}.time_since_epoch()}, false, 0s);
+}
+
 // Note at the time of writing all leap seconds are positive. This test uses
 // fake data to test the behaviour of negative leap seconds.
-int main(int, const char**) {
+static void test_negative_leap_seconds() {
   using namespace std::literals::chrono_literals;
 
   // Use small values for simplicity. The dates are seconds since 1.1.1900.
@@ -121,4 +137,11 @@ int main(int, const char**) {
   test_transition(epoch + 240s + 1s, 1s, true);
   test_transition(epoch + 300s + 2s, 2s, true);
   test_transition(epoch + 360s + 3s, 3s, false);
+}
+
+int main(int, const char**) {
+  test_no_leap_seconds_entries();
+  test_negative_leap_seconds();
+
+  return 0;
 }

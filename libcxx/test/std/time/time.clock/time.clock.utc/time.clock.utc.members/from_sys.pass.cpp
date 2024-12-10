@@ -210,4 +210,6 @@ int main(int, const char**) {
   test_example_standard();
   test_transitions();
   test_return_type();
+
+  return 0;
 }

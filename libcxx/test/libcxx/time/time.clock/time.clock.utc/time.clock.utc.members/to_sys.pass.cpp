@@ -112,4 +112,6 @@ int main(int, const char**) {
   test_transition(sys_epoch + 240s, 1s, true);
   test_transition(sys_epoch + 300s, 2s, true);
   test_transition(sys_epoch + 360s, 3s, false);
+
+  return 0;
 }

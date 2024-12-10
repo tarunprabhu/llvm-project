@@ -103,4 +103,6 @@ int main(int, const char**) {
   test_leap_seconds(epoch + 360s - 1ns, 3s);
   test_leap_seconds(epoch + 360s, 2s);
   test_leap_seconds(epoch + 360s + 1ns, 2s);
+
+  return 0;
 }

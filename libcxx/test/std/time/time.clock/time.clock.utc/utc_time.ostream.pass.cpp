@@ -21,7 +21,7 @@
 
 // <chrono>
 
-// class utctem_clock;
+// using utc_time = ...;
 
 // template<class charT, class traits, class Duration>
 // basic_ostream<charT, traits>&

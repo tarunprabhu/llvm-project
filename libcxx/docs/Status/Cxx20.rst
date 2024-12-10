@@ -54,7 +54,7 @@ Paper Status
       * ``Input parsers`` not done
       * ``Stream output`` Obsolete due to `P1361R2 <https://wg21.link/P1361R2>`_ "Integration of chrono with text formatting"
       * ``Time zone and leap seconds`` In Progress
-      * ``UTC clock`` Clang 19
+      * ``UTC clock`` Clang 20
       * ``TAI clock`` not done
       * ``GPS clock`` not done
 

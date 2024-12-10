@@ -94,7 +94,7 @@ public:
     const tzdb& __tzdb = chrono::get_tzdb();
     _Rp __result{__time.time_since_epoch()};
     for (const auto& __leap_second : __tzdb.leap_seconds) {
-      if (__time < __leap_second)
+      if (__leap_second > __time)
         return __result;
 
       __result += __leap_second.value();
@@ -111,7 +111,7 @@ struct leap_second_info {
 template <class _Duration>
 [[nodiscard]] _LIBCPP_HIDE_FROM_ABI leap_second_info get_leap_second_info(const utc_time<_Duration>& __time) {
   const tzdb& __tzdb = chrono::get_tzdb();
-  if (__tzdb.leap_seconds.empty())
+  if (__tzdb.leap_seconds.empty()) [[unlikely]]
     return {false, chrono::seconds{0}};
 
   sys_seconds __sys{chrono::floor<seconds>(__time).time_since_epoch()};

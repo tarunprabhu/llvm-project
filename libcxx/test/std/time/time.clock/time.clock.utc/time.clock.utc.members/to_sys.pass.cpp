@@ -37,9 +37,9 @@ static void test_leap_seconds(std::chrono::utc_time<Duration> time, std::chrono:
 static std::chrono::sys_seconds get_sys_time(long long seconds_since_1900) {
   // The file leap-seconds.list stores dates since 1 January 1900, 00:00:00, we want
   // seconds since 1 January 1970.
-  constexpr auto __offset =
+  constexpr auto offset =
       std::chrono::sys_days{std::chrono::January / 1 / 1970} - std::chrono::sys_days{std::chrono::January / 1 / 1900};
-  return std::chrono::sys_seconds{std::chrono::seconds{seconds_since_1900} - __offset};
+  return std::chrono::sys_seconds{std::chrono::seconds{seconds_since_1900} - offset};
 }
 
 // Tests the set of existing database entries at the time of writing. Since
@@ -217,4 +217,6 @@ int main(int, const char**) {
   test_transitions();
   test_transitions_floating_point();
   test_return_type();
+
+  return 0;
 }
